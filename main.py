@@ -1,7 +1,6 @@
 from tkinter import *
 from pydub import AudioSegment
 from pydub.playback import play
-from playsound import playsound 
 
 class Window(Frame):
 
@@ -18,10 +17,11 @@ class Window(Frame):
         
         # create play button
         play_btn = Button(self, text="Play", command=self.click_play_btn)
-        play_btn.place(x=100,y=100)
+        play_btn.place(x=10,y=10)
 
     def click_play_btn(self):
-        playsound("test.mp3")
+        song = AudioSegment.from_mp3("test.mp3")
+        play(song)
 
     def click_exit_btn(self):
         exit()
