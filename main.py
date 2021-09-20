@@ -1,3 +1,5 @@
+import multithreading
+import subprocess
 from tkinter import *
 from pydub import AudioSegment
 from pydub.playback import play
@@ -22,6 +24,9 @@ class Window(Frame):
     def click_play_btn(self):
         song = AudioSegment.from_mp3("test.mp3")
         play(song)
+
+    def click_stop_btn(self):
+        
 
     def click_exit_btn(self):
         exit()
