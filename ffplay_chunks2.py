@@ -38,10 +38,11 @@ process2 = subprocess.Popen(
 
 #myproc.wait()
 #myproc.stdin.write(chunk)
-out = process1.communicate(chunk)[0]
-process1.wait()
+out = myproc.communicate(chunk)[0]
+print(out)
+#process1.wait()
 
-process2.communicate(out)[0]
-process2.wait()
+#process2.communicate(out)[0]
+#process2.wait()
 
 
