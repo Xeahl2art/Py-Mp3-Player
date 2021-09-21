@@ -2,15 +2,17 @@ import ffmpeg
 import subprocess
 
 in_filename = '.test.mp3'
-width, height = 1920, 1080  # (or use ffprobe or whatever)
 
+with open('.test.mp3','rb') as f:
+         chunk = f.read(4096) # 4Kib
 process1 = (
     ffmpeg
-    .input(in_filename)
+    .input("pipe:")
     # (filters/etc. go here)
     .output('pipe:', format='mp3')
     .run_async(pipe_stdout=True)
 )
+process1.stdin(chunk)
 process2 = subprocess.Popen(
     [
         'ffplay',
