@@ -97,4 +97,4 @@ class RTPPacket:
     def print_all(self):
         for i, by in enumerate(self.header[:]):
             s = ' '.join(f"{by:08b}")
-            print(s, end=' ' if i % 8 !=0 else '\n')
+            print(s, end=' ' if i+1 % 4 !=0 else '\n')
