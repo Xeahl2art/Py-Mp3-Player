@@ -13,3 +13,18 @@ pipe = subprocess.run(ffmpeg_command,
                        bufsize=10**8)
 
  # debug
+
+process2 = subprocess.Popen(
+     [
+         'ffplay',
+         '-f', 'wav',
+         '-i', 'pipe:',
+     ],
+     stdin=subprocess.PIPE,
+)
+
+
+out = pipe.stdout
+process2.communicate(out)[0]
+
+
