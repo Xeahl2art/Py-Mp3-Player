@@ -1,8 +1,9 @@
+import subprocess
 
-with open('.test.mp3','r') as f:
-    for i,e in enumerate( f.readlines() ):
-        print(e)
-        if i ==50:
-            break
+with open('.test.mp3','rb') as f:
+        chunk = f.read(4096) # 4Kib
+ffplay_proc = subprocess.Popen('ffplay', shell=True, stdin=subprocess.PIPE)
+ffplay_proc.stdin.write(chunk)
+
 
 
