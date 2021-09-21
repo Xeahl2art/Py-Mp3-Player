@@ -22,24 +22,28 @@ class RTPPacket:
 
     def __init__(
             self,
-            payload_type: int = None,
-            sequence_number: int = None,
-            timestamp: int = None,
-            payload: bytes = None):
+            payload_type:       int     = None,
+            sequence_number:    int     = None,
+            timestamp:          int     = None,
+            payload:            bytes   = None):
 
-        self.payload = payload
-        self.payload_type = payload_type
-        self.sequence_number = sequence_number
-        self.timestamp = timestamp
+        self.payload        = payload
+        self.payload_type   = payload_type
+        self.sequence_number= sequence_number
+        self.timestamp      = timestamp
 
         # b0 -> v0 v1 p x c0 c1 c2 c3
         zeroth_byte = (self.VERSION << 6) | (self.PADDING << 5) | (self.EXTENSION << 4) | self.CC
+        
         # b1 -> m pt0 pt1 pt2 pt3 pt4 pt5 pt6
         first_byte = (self.MARKER << 7) | self.payload_type
+        
         # b2 -> s0 s1 s2 s3 s4 s5 s6 s7
         second_byte = self.sequence_number >> 8
+        
         # b3 -> s8 s9 s10 s11 s12 s13 s14 s15
         third_byte = self.sequence_number & 0xFF
+        
         # b4~b7 -> timestamp
         fourth_to_seventh_bytes = [
             (self.timestamp >> shift) & 0xFF for shift in (24, 16, 8, 0)
@@ -48,6 +52,7 @@ class RTPPacket:
         eigth_to_eleventh_bytes = [
             (self.SSRC >> shift) & 0xFF for shift in (24, 16, 8, 0)
         ]
+        
         self.header = bytes((
             zeroth_byte,
             first_byte,
