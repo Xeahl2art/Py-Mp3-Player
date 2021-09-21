@@ -1,7 +1,30 @@
 import subprocess
+import keyboard
+from time import sleep
 
-client = subprocess.Popen([
+class Client_ffplay():
+    client = subprocess.Popen([
         "ffplay",
-        "rtp://127.0.0.1",
+         "-nodisp", "-autoexit",
+         "rtp://127.0.0.1:1234",
+        ],
+        stdin=subprocess.PIPE,
+        )
 
-    ])
+    def start(self):
+        self.client.wait()
+        self.key_listener()
+
+    async def key_listener(self):
+        while True:
+            sleep(0.5)
+            if keyboard.is_press_and_release("q"):
+                print("asd")
+                self.client.communicate(input='q')
+
+
+
+    
+
+client = Client_ffplay()
+client.start()

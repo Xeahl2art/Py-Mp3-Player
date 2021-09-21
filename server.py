@@ -1,27 +1,23 @@
-import socket
-from time import sleep
-from  threading import Thread
+import subprocess
 
-from utils.rtp_packet import RTPPacket
 
-import pickle
-import json
 
-from pydub import AudioSegment
-from pydub.playback import play
+class Server_ffmpeg():
 
-song = AudioSegment.from_mp3(".test.mp3")
+    def __init__(self,mp3_file_path):
+        self.mp3_file_path = mp3_file_path
 
-def wait_con():
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    address = ("localhost", 1234)
 
-    s.bind(address)
-    s.listen(1)
-    print(f"Listening for con.. ")
-    s.send(pickle.dumps(song))
-    conc, client_addr = s.accept()
-    print(f"conc {conc} client_addr {client_addr}")
-    s.close()    
-wait_con()
 
+    def start(self):
+        self.server = subprocess.Popen([
+            "ffmpeg","-re", "-i", self.mp3_file_path,
+            "-acodec", "libmp3lame", "-ab", "128k",
+            "-ac","2", "-ar", "44100", "-hide_banner","-vn",
+            "-f","rtp" , "rtp://127.0.0.1:1234",
+            ])
+
+        self.server.wait()
+
+server = Server_ffmpeg(".test.mp3")
+server.start()
