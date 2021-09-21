@@ -6,7 +6,7 @@
 class InvalidPacketException(Exception):
     pass
 
-class RTPacket:
+class RTPPacket:
     # default header info
 
     HEADER_SIZE = 12    # bytes
@@ -17,20 +17,6 @@ class RTPacket:
     MARKER      = 0b0   # 1 bit
     SSRC        = 0x00000000 # 32 bits
 
-    class TYPE: 
-        MJPEG = 26
-
-    def __init__(self, 
-                payload_type: int = None,
-                sequence_number: int = None,
-                timestamp: int = None,
-                payload:bytes =None):
-
-        self.paylaod        = payload
-        self.payload_type   = payload_type
-        self.sequence_number= sequence_number
-        self.timestamp      = timestamp
-        
     class TYPE:
         MJPEG = 26
 
@@ -107,4 +93,8 @@ class RTPacket:
             s = ' '.join(f"{by:08b}")
             # break line after the third and seventh bytes
             print(s, end=' ' if i not in (3, 7) else '\n')
-
+    
+    def print_all(self):
+        for i, by in enumerate(self.header[:]):
+            s = ' '.join(f"{by:08b}")
+            print(s, end=' ' if i % 8 !=0 else '\n')
