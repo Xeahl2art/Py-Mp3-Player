@@ -67,7 +67,7 @@ class RTPPacket:
         if len(packet) < cls.HEADER_SIZE:
             raise InvalidPacketException(f"The packet {repr(packet)} is invalid")
 
-        header = packet[:cls.HEADER_SIZE]
+        header  = packet[:cls.HEADER_SIZE]
         payload = packet[cls.HEADER_SIZE:]
 
         # b1 -> m pt0 ... pt6
