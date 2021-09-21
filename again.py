@@ -14,7 +14,7 @@ ffmpeg_command = ["ffmpeg", "-i", "pipe:2",
 pipe = subprocess.Popen(ffmpeg_command,
                        stdout=subprocess.PIPE,
                        stderr=subprocess.PIPE,
-                       bufsize=10**8)
+                       )
 
 
 process2 = subprocess.Popen(
@@ -28,11 +28,10 @@ process2 = subprocess.Popen(
 
 def write_(file):
     with open(".test2.wav",'wb') as f:
-        f.write(out)
-
-print(chunk[:10])
-out = pipe.communicate(input=chunk)[0]
+        f.write(file)
+#pipe.stdin = chunk
+out = pipe.communicate(input=chunk.hex())[0]
 #write_(out)
 print(pipe.stderr)
-#process2.communicate(out)
+process2.communicate(out)
 #process2.wait()
