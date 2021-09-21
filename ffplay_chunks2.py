@@ -7,23 +7,23 @@ with open('.test.mp3','rb') as f:
          chunk = f.read(7896687) # 4Kib
 process1 = (
     ffmpeg
-    .input('pipe:', format='mp3')
+    .input('pipe: -f mp3')
     # (filters/etc. go here)
-    .output('pipe:', format='mp3')
+    .output('pipe: ')
     .run_async(pipe_stdout=True)
 )
 
-myproc = subprocess.Popen([
+myproc = subprocess.run([
 
     'ffmpeg',
     '-f mp3',
     '-i pipe:',
-    '-o pipe:',
-    '-f mp3',
-    ],
-    shell=True,
+    'pipe:1',
+       ],
+    
     stdin=subprocess.PIPE,
     stdout=subprocess.PIPE,
+    bufsize=10**8,
 )
 
 
@@ -36,10 +36,11 @@ process2 = subprocess.Popen(
     stdin=subprocess.PIPE,
 )
 
-myproc.wait()
+#process1.wait()
 #myproc.stdin.write(chunk)
-out = myproc.communicate(chunk)[0]
-print(out)
+#out = myproc.communicate(chunk)[0]
+myproc.stdout
+#print(out)
 #process1.wait()
 
 #process2.communicate(out)[0]
