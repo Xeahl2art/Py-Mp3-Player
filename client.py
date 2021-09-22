@@ -12,9 +12,9 @@ class Client_ffplay():
         )
 
     def start(self):
-        self.client.wait()
         self.key_listener()
-
+        self.client.wait()
+        
     async def key_listener(self):
         while True:
             sleep(0.5)
