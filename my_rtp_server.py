@@ -31,7 +31,7 @@ class RTP_Server:
     
     def send_mp3(self, rtp_pkg_frame):
         self.server.sendto(rtp_pkg_frame, ("127.0.0.1",1235))
-        sleep(0.0003)
+        #sleep(0.00003)
 
 
 srv = RTP_Server()
