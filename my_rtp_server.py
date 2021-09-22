@@ -25,13 +25,14 @@ class RTP_Server:
                     )
             
             pkg =rtp_pkg.get_packet()
+            pkg = frame
             if frame_number % 1000 ==0:
                 print( self.AudioS.bytes_number/7896687)
             self.send_mp3(pkg)
     
     def send_mp3(self, rtp_pkg_frame):
         self.server.sendto(rtp_pkg_frame, ("127.0.0.1",1235))
-        #sleep(0.00003)
+        sleep(0.00003)
 
 
 srv = RTP_Server()
