@@ -19,6 +19,7 @@ class RTPPacket:
 
     class TYPE:
         MJPEG = 26
+        MPA   = 14	
 
     def __init__(
             self,
