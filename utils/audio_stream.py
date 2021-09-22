@@ -6,9 +6,9 @@ class AudioStream:
     AUDIO_EOF = b'\xff\xd9'
 
 
-    def __init__(self, file_path=".test_wav.wav"):
+    def __init__(self, file_path=".test.mp3"):
         # for simplicity, mjpeg is assumed to be on working directory
-        self._stream = open(file_path, 'rb')
+        self._stream = open(file_path, 'rb')  
         # frame number is zero-indexed
         # after first frame is sent, this is set to zero
         self.current_frame_number = -1
