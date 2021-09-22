@@ -29,10 +29,11 @@ while recv is None:
             sdp = f2.read()
            
             while 1:
-                pkg = f.read(1024*8)
+                pkg = f.read(1)
                 if not pkg:
                     break
                 #udps.sendto( sdp , c_adress)
-                udps.sendto( pkg , c_adress)
-                #sleep(0.15)
+                #udps.sendto( pkg , c_adress)
+                print(pkg)
+                sleep(5.15)
 
