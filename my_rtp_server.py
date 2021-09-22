@@ -20,7 +20,7 @@ class RTP_Server:
             rtp_pkg = RTPPacket(
                     payload_type    = RTPPacket.TYPE.MPA,
                     sequence_number = frame_number,
-                    timestamp       = frame_number*48000,
+                    timestamp       = frame_number*1000//24,
                     payload         = frame,
                     )
             

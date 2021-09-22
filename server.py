@@ -26,5 +26,5 @@ class Server_ffmpeg():
 
         self.server.wait()
 
-server = Server_ffmpeg(".test.mp3")
+server = Server_ffmpeg(".test_rtp")
 server.start()

@@ -6,7 +6,7 @@ class AudioStream:
     AUDIO_EOF = b'\xff\xd9'
 
 
-    def __init__(self, file_path=".test__rtp_mpegts"):
+    def __init__(self, file_path=".test.mp3"):
         # for simplicity, mjpeg is assumed to be on working directory
         self._stream = open(file_path, 'rb')
         # frame number is zero-indexed
@@ -18,7 +18,7 @@ class AudioStream:
 
     def get_next_frame(self) -> bytes:
         
-        frame_length= 8
+        frame_length= 4
         frame = self._stream.read(frame_length)
         self.current_frame_number += 1
         self.bytes_number = frame_length * self.current_frame_number
