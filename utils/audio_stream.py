@@ -11,10 +11,10 @@ class AudioStream:
 
     def __init__(self, file_path=".test.mp3"):
         # for simplicity, mjpeg is assumed to be on working directory
-        #self._stream = open(file_path, 'rb')  
+        self._stream = open(".test_wav.wav", 'rb')  
         # frame number is zero-indexed
         # after first frame is sent, this is set to zero
-        self._stream = AudioSegment.from_mp3(".test.mp3")
+        #self._stream = AudioSegment.from_mp3(".test.mp3").raw_data
         self.current_frame_number = -1
         self.bytes_number =0 
         self.i=1
@@ -23,10 +23,11 @@ class AudioStream:
 
     def get_next_frame(self) -> bytes:
         
-        frame_length= len(self._stream)//3000
-        if self.i > 3000:
-            return bytes(self.AUDIO_EOF)
-        frame = self._stream[frame_length*(self.i-1):frame_length*self.i]
+        #frame_length= len(self._stream)//3000
+        frame = self._stream.read(1024*2) 
+        print("au" + str(frame[:5]))
+        #self._stream[frame_length*(self.i-1):frame_length*self.i]
         self.current_frame_number += 1
-        self.bytes_number = frame_length * self.current_frame_number
-        return bytes(frame)
+        self.i+=1
+        #self.bytes_number = frame_length * self.current_frame_number
+        return frame
