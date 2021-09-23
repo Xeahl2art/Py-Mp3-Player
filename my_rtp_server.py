@@ -21,8 +21,8 @@ class UDP_Server:
             self.send_mp3(frame)
     
     def send_mp3(self, send_frame):
-        self.server.sendto(send_frame, ("127.0.0.1",1235))
-        sleep(0.003)
+        self.server.sendto(send_frame, ("127.0.0.1",1237))
+        sleep(0.128/2.)
 
 
 
