@@ -1,8 +1,0 @@
-SDP:
-v=0
-o=- 0 0 IN IP4 127.0.0.1
-s=Live Your Life (ft. Rihanna)
-t=0 0
-a=tool:libavformat 58.29.100
-m=audio 0 RTP/AVP 14
-a=control:streamid=0
