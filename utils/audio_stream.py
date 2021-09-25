@@ -14,7 +14,6 @@ class AudioStream:
         self._stream = open(".test4.mp3", 'rb')  
         # frame number is zero-indexed
         # after first frame is sent, this is set to zero
-        #self._stream = AudioSegment.from_mp3(".test.mp3").raw_data
         self.current_frame_number = -1
         self.bytes_number =0 
         self.i=0
