@@ -50,12 +50,22 @@ class AudioStream:
         #self.bytes_number = frame_length * self.current_frame_number
         return frame
 
-    def get_header(self,frame1): # -1 broke   
-        if frame1 ==b'\xff':
-            frame2 = self._stream.read(1)
-            while frame2 == b'\xff':
-                frame1 = frame2 
-                frame2 = self._stream.read(1)
+    def get_header(self): # -1 broke   
+        self.find_pattern_in_open_file(pattern=[b'\xff',[b'\xfb',b'\xfa'])
+
+    def find_pattern_in_open_file(self, pattern,open_file )
+        for i in range(0,len(pattern)):
+            pats =['']*len(pattern)    
+            length_in_pats =[ len(pattern[i]) for in range(0,len(pattern))
+            pats[i] = file.read(1)
+    
+            while pats[i] != pattern[i]: 
+                pats[i] = open_file.read(1)
+
+            by2 = self._stream.read(1)
+        while by2 == b'\xff':
+                by1 = by2 
+                by2 = self._stream.read(1)
                 
             if frame2 == b'\xfb'or frame2 == b'\xfa' : # 0b1111011 = 251 -> mp3
                 frame3 =self._stream.read(1)
