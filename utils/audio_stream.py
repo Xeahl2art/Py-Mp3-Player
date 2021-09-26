@@ -1,3 +1,5 @@
+from utils.timing import timer_func
+
 class AudioStream:
 
     # Bitrate and Frequenz or Sample rate  datasheet of mp3  
@@ -37,6 +39,8 @@ class AudioStream:
             print('\n'*4)
             print("cur frame"+ str(self.current_frame_number))
         return frame
+    
+
 
     def get_header(self, open_file):    
         ''' 
@@ -51,7 +55,7 @@ class AudioStream:
         self.bytes_number += 2
 
         #set offset 
-        self.offset = 4 if by3 == b'\x94' else 0
+        self.offset = 4 # if by3 == b'\x94' else 0
         
         #getting information from third byte 
         by3_in_bit = bin(by3[0]) # conv by3 in bits
@@ -84,7 +88,7 @@ class AudioStream:
                 #input()
             return 0
     
-        self.header = pattern[0] + pattern[1] + by3 + by4
+        self.header = pattern + by3 + by4
         
         if self.DEBUG:
             print("by3_in_bit: "+str(bits_bitrate))
@@ -97,51 +101,46 @@ class AudioStream:
             print("fby3_in_bit: "+str(bits_freq))
         
         return 1
-
-
-    def find_pattern_in_open_file(self, pattern, open_file ):
-        '''return found_pattern and the open_file heads to the postion after given pattern
-         Example
-         input: pattern = [ a, [x,y] ] -> first position must be a  and second x or y
-        '''
-        found_pattern = b''    
-        for i in range(0,len(pattern)):
-                bys =['']*len(pattern)    
-                length_in_pat =[ len(pattern[k]) for k  in range(0,len(pattern))]
-                bys[i] = open_file.read(1)
-                self.bytes_number += 1
-               
-                # could be pattern of previous pattern
-                if bys[i-1] == bys[i]:
-                    i -=1
-                    self.bytes_number -= 1
-                    continue
-                   
-                # match bytes in pattern
-                for pats in pattern[i]:
-                    while bys[i] != pats: 
-                        bys[i] = open_file.read(1)
-                        self.bytes_number += 1
-                        if bys[i] == '':
-                            return "file empty"
-                    else:
-                        found_pattern += pats.to_bytes(1,"little")
-        return found_pattern
+   
+    @timer_func
+    def find_pattern_in_open_file(self,pattern,open_file):
+    '''return found_pattern and the open_file heads to the postion after given pattern
+    Example
+    input: pattern = [ a, [x,y] ] -> first position must be a  and second x or y
+    '''
+        last_bys=b''
+        bys = 0
+        while last_bys != pattern[0]:
+            found_pattern =[]
+            # goes backwards
+            for i in range(len(pattern)-1,0,-1):
+                list_tmp_pat=[]
+                while not True in list_tmp_pat:
+                    last_bys = bys
+                    bys = open_file.read(1)
+                
+                    def find_help(x):
+                        return x == bys  
+                    list_tmp_pat = list( map(find_help,pattern[i]) )
+                found_pattern.append(bys)
+        found_pattern.append(last_bys)
+        
+        return found_pattern[1]+found_pattern[0]
     
     def get_mp3data(self, open_file):
-        self.frameSize = 144 * self.bitrate*1000 // self.freq
-        payload = open_file.read(self.frameSize - self.offset)
-        self.offset = 0
-        header_and_payload = self.header+payload
-        self.duration= self.frameSize*8 / self.bitrate
+        self.frameSize  = 144 * self.bitrate*1000 // self.freq
+        payload         = open_file.read(self.frameSize - self.offset)
+        self.offset     = 0
+        header_and_payload  = self.header+payload
+        self.duration       = self.frameSize*8 / self.bitrate
         
-        if self.DEBUG ==1:
+        if self.DEBUG:
             print("####################")
             print("header: "+ str(self.header))
             print()
             print("payload: "+ str(payload))
             print()
-            print("alles: "+ str(header_and_payload))
+            print("all: "+ str(header_and_payload))
             print("####################")
             print("frameSize: "+ str(self.frameSize)) 
             print("dur: " + str(self.duration))

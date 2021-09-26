@@ -20,13 +20,10 @@ class UDP_Server:
                 print("stop now")
                 sleep(5)
             self.send_mp3(frame)
-            #q = input()
-            #if q == "S":
-            #    print(frame[:])
 
     def send_mp3(self, send_frame):
         self.server.sendto(send_frame, ("127.0.0.1",1237))
-        dur = self.AudioS.dur
+        dur = self.AudioS.duration
         dur = (dur )/1000.
         dur = dur
         print("dur2: "+str(dur))
