@@ -5,7 +5,7 @@ class AudioStream:
     # Bitrate and Frequenz or Sample rate  datasheet of mp3  
     BR = [64,32 ,40 ,48 ,56 ,64,80 ,96 ,112 ,128 ,160 ,192, 224 ,256, 320,-1] 
     Hz = [44100,48000,32000,-1]
-    DEBUG = 1
+    DEBUG = 0
     
 
     def __init__(self, file_path=".test.mp3"):
@@ -102,7 +102,7 @@ class AudioStream:
         
         return 1
    
-    @timer_func
+    #@timer_func
     def find_pattern_in_open_file(self,pattern,open_file):
         ''' 
         return the found pattern and set the file pointer after the found pattern
