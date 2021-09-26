@@ -104,10 +104,7 @@ class AudioStream:
    
     @timer_func
     def find_pattern_in_open_file(self,pattern,open_file):
-    '''return found_pattern and the open_file heads to the postion after given pattern
-    Example
-    input: pattern = [ a, [x,y] ] -> first position must be a  and second x or y
-    '''
+        
         last_bys=b''
         bys = 0
         while last_bys != pattern[0]:
